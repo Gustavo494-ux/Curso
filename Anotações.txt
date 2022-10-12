@@ -1,0 +1,9 @@
+Gerais
+    0.1 Utiliza-se Letras maiúsculas no em nomes de Funções para que as mesmas possam ser utilizadas externamente.
+    0.2 Utiliza-se Letras minúsculas no em nomes de Funções para que as mesmas possam ser utilizadas apenas internamente.
+
+1 - Pacotes 
+    1.1 - Para criar um modulo utilizar o comando abaixo no terminal 
+        go mod init nomeModulo
+    1.2 - Para Gerar um Executável utilizar o comando abaixo no terminal
+        go build 
