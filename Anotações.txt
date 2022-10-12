@@ -7,3 +7,17 @@ Gerais
         go mod init nomeModulo
     1.2 - Para Gerar um Executável utilizar o comando abaixo no terminal
         go build 
+    1.3 - Para importar um pacote externo pode-ser utilizar o comando abaixo no terminal   
+        go get urlHospedagem
+    1.4 Para atualizar as dependências do projeto(remover as não usada e adicionar outras ) utiliza-se o comando abaixo no terminal
+        go mod tidy
+
+2 - Variaveis 
+    2.1 - Podem ser declaradas de forma dinamica utilizando inferência de tipo como no exemplo abaixo   
+        x := "Teste"/  X:= 10
+    2.1 Podem ser declaradas de forma explicita 
+        var x string = "Teste" / var x int = 10
+    2.3 Para criar uma contante é preciso colocar um const antes da declaração
+        const x:= "Teste" / const x string = "Teste"
+    2.4 Para inverter os valores de 2 Variaveis basta utilizar a notação abaixo
+        variavel1, variavel2 = variavel2, variavel1
