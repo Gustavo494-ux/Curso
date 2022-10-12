@@ -21,3 +21,5 @@ Gerais
         const x:= "Teste" / const x string = "Teste"
     2.4 Para inverter os valores de 2 Variaveis basta utilizar a notação abaixo
         variavel1, variavel2 = variavel2, variavel1
+3 - 
+    
