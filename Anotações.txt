@@ -24,3 +24,4 @@ Gerais
 3 - Funções
     3.1 - Defer serve para retardar a execução da função, ela será a última função a ser executada dentro de seu escopo
     
+* - A Função Init é executada antes da função main, e pode ser declarada uma função Init por arquivo
