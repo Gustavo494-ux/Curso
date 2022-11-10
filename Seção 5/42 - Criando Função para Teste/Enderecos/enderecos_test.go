@@ -6,17 +6,32 @@ import (
 	"testing"
 )
 
+type cenarioDeTeste struct {
+	EnderecoInserido string
+	retornoEsperado  string
+}
+
 func TestTipoDeEndereco(t *testing.T) {
-	enderecosParaTeste := "Avenida Paulista"
 
-	tipoDeEnderecoEsperado := "Avenida"
+	CenariosDeTeste := []cenarioDeTeste{
+		{"Rua ABC", "Rua"},
+		{"Avenida Paulista", "Avenida"},
+		{"RODOVIA dos Imigrantes", "Rodovia"},
+		{"Praça Das Rosas", "Tipo Inválido"},
+		{"Estrada Qualquer", "Estrada"},
+		{"RUA DOS BOBOS", "Rua"},
+		{"AVENIDA REBOUÇAS", "Avenida"},
+		{"", "Tipo Inválido"},
+	}
 
-	tipoDeEnderecoRecebido := TipoDeEndereco(enderecosParaTeste)
+	for _, cenario := range CenariosDeTeste {
+		tipoDeEnderecoRecebido := TipoDeEndereco(cenario.EnderecoInserido)
 
-	if strings.ToLower(tipoDeEnderecoEsperado) != strings.ToLower(tipoDeEnderecoRecebido) {
-		t.Errorf("O tipo recebido é diferente do esperado! Esperava %s, e recebeu %s ",
-			tipoDeEnderecoEsperado,
-			tipoDeEnderecoRecebido,
-		)
+		if strings.ToLower(tipoDeEnderecoRecebido) != strings.ToLower(cenario.retornoEsperado) {
+			t.Errorf("O tipo recebido %s é diferente do tipo esperado %s",
+				tipoDeEnderecoRecebido,
+				cenario.retornoEsperado,
+			)
+		}
 	}
 }
