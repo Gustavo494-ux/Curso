@@ -12,16 +12,17 @@ type cenarioDeTeste struct {
 }
 
 func TestTipoDeEndereco(t *testing.T) {
+	t.Parallel()
 
 	CenariosDeTeste := []cenarioDeTeste{
 		{"Rua ABC", "Rua"},
 		{"Avenida Paulista", "Avenida"},
 		{"RODOVIA dos Imigrantes", "Rodovia"},
-		{"Praça Das Rosas", "Tipo Inválido"},
+		//{"Praça Das Rosas", "Tipo Inválido"},
 		{"Estrada Qualquer", "Estrada"},
 		{"RUA DOS BOBOS", "Rua"},
 		{"AVENIDA REBOUÇAS", "Avenida"},
-		{"", "Tipo Inválido"},
+		//{"", "Tipo Inválido"},
 	}
 
 	for _, cenario := range CenariosDeTeste {
@@ -33,5 +34,12 @@ func TestTipoDeEndereco(t *testing.T) {
 				cenario.retornoEsperado,
 			)
 		}
+	}
+}
+
+func TestQualquer(t *testing.T) {
+	t.Parallel()
+	if 1 > 2 {
+		t.Errorf("Teste quebrou")
 	}
 }

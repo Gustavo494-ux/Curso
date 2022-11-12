@@ -1,8 +1,10 @@
 package enderecos
 
-import "strings"
+import (
+	"strings"
+)
 
-//TipoDeEndereco verifica se um endereçoo tem um tipo válido e o retorna
+// TipoDeEndereco verifica se um endereçoo tem um tipo válido e o retorna
 func TipoDeEndereco(endereco string) string {
 	tiposValidos := []string{"rua", "avenida", "estrada", "rodovia"}
 
@@ -22,5 +24,4 @@ func TipoDeEndereco(endereco string) string {
 	}
 
 	return "Tipo Inválido"
-
 }
