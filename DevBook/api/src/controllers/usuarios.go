@@ -75,8 +75,8 @@ func BuscarUsuarios(w http.ResponseWriter, r *http.Request) {
 // BuscarUsuario busca um usuário salvo no banco de dados
 func BuscarUsuario(w http.ResponseWriter, r *http.Request) {
 	parametros := mux.Vars(r)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
 
-	usuarioID, erro := strconv.ParseUint(parametros["usuario_id"], 10, 64)
 	if erro != nil {
 		respostas.Erro(w, http.StatusBadRequest, erro)
 		return
@@ -145,5 +145,32 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 
 // DeletarUsuario Exclui um usuário do banco de dados
 func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Deletando Usuário!"))
+	parametros := mux.Vars(r)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
+
+	/*	teste := parametros["usuarioId"]
+		usuarioID, erro := strconv.ParseUint(teste, 10, 64)
+	*/
+	//ID, erro := strconv.ParseUint(teste, 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositorioDeUsuarios(db)
+
+	if erro = repositorio.Deletar(usuarioID); erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	//return respostas.JSON(w, http.StatusNoContent, nil)
+	respostas.JSON(w, http.StatusNoContent, nil)
 }
