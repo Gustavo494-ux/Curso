@@ -115,6 +115,7 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 	usuarioIDToken, erro := autenticacao.ExtrairUsuarioID(r)
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnauthorized, erro)
+		return
 	}
 
 	if usuarioID != usuarioIDToken {
@@ -159,13 +160,19 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 	parametros := mux.Vars(r)
 	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
-
-	/*	teste := parametros["usuarioId"]
-		usuarioID, erro := strconv.ParseUint(teste, 10, 64)
-	*/
-	//ID, erro := strconv.ParseUint(teste, 10, 64)
 	if erro != nil {
 		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	usuarioIDNoToken, erro := autenticacao.ExtrairUsuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusUnauthorized, erro)
+		return
+	}
+
+	if usuarioID != usuarioIDNoToken {
+		respostas.Erro(w, http.StatusForbidden, errors.New("Não é possível Deletar um usuário que não é seu"))
 		return
 	}
 
