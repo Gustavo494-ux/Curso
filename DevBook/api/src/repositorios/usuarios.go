@@ -139,7 +139,7 @@ func (repositorio usuarios) Deletar(ID uint64) error {
 
 // Busca o usuário utilizando o Email
 func (repositorio usuarios) BuscarPorEmail(email string) (modelos.Usuario, error) {
-	linha, erro := repositorio.db.Query("SELECT ID, SENHA FROM USUARIOS WHERE EMAIL = ?", email)
+	linha, erro := repositorio.db.Query("SELECT ID, SENHA FROM usuarios WHERE EMAIL = ?", email)
 	if erro != nil {
 		return modelos.Usuario{}, erro
 	}
@@ -154,4 +154,22 @@ func (repositorio usuarios) BuscarPorEmail(email string) (modelos.Usuario, error
 	}
 
 	return usuario, nil
+}
+
+// Seguir
+func (repositorio usuarios) Seguir(usuarioId, SeguidorId uint64) error {
+	statement, erro := repositorio.db.Prepare(
+		"INSERT ignore INTO seguidores(usuario_Id,seguidor_Id) VALUES(?,?)",
+	)
+
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(usuarioId, SeguidorId); erro != nil {
+		return erro
+	}
+
+	return nil
 }

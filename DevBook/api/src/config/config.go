@@ -30,7 +30,7 @@ func Carregar() {
 
 	Porta, erro = strconv.Atoi(os.Getenv("API_PORT"))
 	if erro != nil {
-		Porta = 9000
+		Porta = 5000
 	}
 
 	StringConexaoBanco = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local",
