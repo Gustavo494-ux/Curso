@@ -182,9 +182,47 @@ func (repositorio usuarios) PararDeSeguir(usuarioId, SeguidorId uint64) error {
 	if erro != nil {
 		return erro
 	}
+	defer statement.Close()
 
 	if _, erro = statement.Exec(usuarioId, SeguidorId); erro != nil {
 		return erro
 	}
 	return nil
+}
+
+// BuscarSeguidores permite que um usuário busque seus seguidores
+func (repositorio usuarios) BuscarSeguidores(usuarioID uint64) ([]modelos.Usuario, error) {
+	linhas, erro := repositorio.db.Query(`SELECT 
+			u.id usuario_id,
+			u.nome usuario_nome,
+			u.nick usuario_nick,
+			u.email ,
+			u.criadoEm 
+		FROM seguidores s 
+			inner join usuarios u on u.id  = s.seguidor_id 
+		where s.usuario_id = ? `, usuarioID,
+	)
+	if erro != nil {
+		return nil, erro
+	}
+
+	var usuarios []modelos.Usuario
+	for linhas.Next() {
+		var usuario modelos.Usuario
+
+		if erro = linhas.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+			&usuario.Email,
+			&usuario.CriadoEm,
+		); erro != nil {
+			return nil, erro
+		}
+
+		usuarios = append(usuarios, usuario)
+	}
+
+	return usuarios, nil
+
 }
