@@ -78,7 +78,7 @@ func (repositorio Publicacoes) BuscarPublicacoes(usuarioID uint64) ([]modelos.Pu
 			inner join usuarios u on u.id = p.autor_id 
 			INNER JOIN seguidores s ON s.usuario_id = u.id
 		where 
-			(u.id = ? or s.seguidor_id =?) 
+			(u.id = ? or s.seguidor_id =?)  `,
 		usuarioID,
 		usuarioID,
 	)
