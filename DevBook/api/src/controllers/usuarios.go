@@ -211,7 +211,7 @@ func SeguirUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if SeguidorId == usuarioId {
-		respostas.Erro(w, http.StatusForbidden, errors.New("Não é possível Seguir você mesmo"))
+		respostas.Erro(w, http.StatusForbidden, errors.New("não é possível Seguir você mesmo"))
 		return
 	}
 
