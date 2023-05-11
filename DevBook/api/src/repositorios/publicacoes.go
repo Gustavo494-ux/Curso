@@ -175,3 +175,20 @@ func (repositorio Publicacoes) BuscarPublicacoesPorUsuario(usuarioID uint64) ([]
 	}
 	return publicacoes, nil
 }
+
+// CurtirPublicacao adiciona 1 curtida a publicação curtida
+func (repositorio Publicacoes) CurtirPublicacao(publicacaoID uint64) error {
+	statement, erro := repositorio.db.Prepare(
+		` UPDATE publicacoes SET curtidas = curtidas + 1 where id = ? `,
+	)
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(publicacaoID); erro != nil {
+		return erro
+	}
+
+	return nil
+}

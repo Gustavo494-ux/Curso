@@ -216,18 +216,60 @@ func BuscarPublicacoesPorUsuario(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db, erro := banco.Conectar()
-	if erro!= nil {
-        respostas.Erro(w, http.StatusInternalServerError, erro)
-        return
-    }
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
 	defer db.Close()
 
 	repositorio := repositorios.NovoRepositorioDePublicacoes(db)
 	publicacoes, erro := repositorio.BuscarPublicacoesPorUsuario(usuarioID)
-	if erro!= nil {
-        respostas.Erro(w, http.StatusInternalServerError, erro)
-        return
-    }
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
 
 	respostas.JSON(w, http.StatusOK, publicacoes)
+}
+
+// CurtirPublicacao adiciona 1 curtida a publicação curtida
+func CurtirPublicacao(w http.ResponseWriter, r *http.Request) {
+	parametros := mux.Vars(r)
+	publicacaoID, erro := strconv.ParseUint(parametros["publicacaoId"], 10, 64)
+	if erro != nil {
+		respostas.Erro(w, http.StatusBadRequest, erro)
+		return
+	}
+
+	db, erro := banco.Conectar()
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+	defer db.Close()
+
+	repositorio := repositorios.NovoRepositorioDePublicacoes(db)
+	publicacao, erro := repositorio.BuscarPorID(publicacaoID)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	if publicacao.ID == 0 {
+		respostas.JSON(w, http.StatusNotFound, "Publicação não encontrada")
+		return
+	}
+
+	if erro = repositorio.CurtirPublicacao(publicacaoID); erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	publicacao, erro = repositorio.BuscarPorID(publicacaoID)
+	if erro != nil {
+		respostas.Erro(w, http.StatusInternalServerError, erro)
+		return
+	}
+
+	respostas.JSON(w, http.StatusOK, publicacao)
 }
